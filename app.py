@@ -4,12 +4,12 @@ from collections import Counter
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)  # Permitir peticiones desde otros dominios
+CORS(app)
 
 @app.route("/analyze/<username>")
 def analyze(username):
-    L = instaloader.Instaloader()
     try:
+        L = instaloader.Instaloader()
         profile = instaloader.Profile.from_username(L.context, username)
         post_times = []
         for post in profile.get_posts():
@@ -26,4 +26,4 @@ def analyze(username):
         return jsonify({"error": str(e)}), 400
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host="0.0.0.0", port=10000)
